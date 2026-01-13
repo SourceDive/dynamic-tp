@@ -1,0 +1,42 @@
+server:
+  port: 8089
+
+spring:
+  application:
+    name: dynamic-tp-test
+  profiles:
+    active: dev
+  dynamic:
+    tp:
+      enabled: true
+      enabledBanner: true
+      enabledCollect: true
+      collectorType: micrometer
+      monitorInterval: 5
+      nacos:
+        dataId: dynamic-tp-test-dtp-dev.yml
+        group: DEFAULT_GROUP
+      configType: yml
+      executors:
+        - threadPoolName: test-pool-1
+          corePoolSize: 2
+          maximumPoolSize: 4
+          keepAliveTime: 30
+          queueType: VariableLinkedBlockingQueue
+          queueCapacity: 1000
+          rejectedHandlerType: CallerRunsPolicy
+          threadNamePrefix: test-pool-1
+
+# Nacos 服务器配置
+nacos:
+  config:
+    server-addr: 127.0.0.1:8848
+    username: ${NACOS_USERNAME:nacos}
+    password: ${NACOS_PASSWORD:nacos}
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+    com.dtp: DEBUG
+    com.alibaba.nacos.client.config.impl: WARN
