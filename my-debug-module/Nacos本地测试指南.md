@@ -229,4 +229,32 @@ mvn spring-boot:run
 - **刷新执行**：`DtpRegistry.refresh()` - 第 91-108 行
 - **参数更新**：`DtpRegistry.doRefresh()` - 第 151-198 行
 
-现在你可以实际体验"动态"的真正威力了！🚀
+现在你可以实际体验"动态"的威力了！🚀
+
+## 9. 🔥 排雷总结（核心避坑指南）
+
+如果你在本地测试中遇到“配置不生效”或“401/403”报错，请务必阅读以下总结。
+
+### 1. 幽灵端口：8848 vs 8091
+在某些 Docker 镜像（如 Nacos v3.1.1）中，Web 端口和 API 端口被拆分了：
+*   **8091 端口**：是容器内 8080 映射出来的，**仅提供网页界面**。它的 Context Path 是根路径 `/`。如果你让程序连这个端口，会因为找不到标准的 `/nacos/v1/...` 接口而报 401 或 404。
+*   **8848 端口**：是真正的 **Nacos API 服务**。它支持标准的 `/nacos` 前缀，是 SDK 唯一能通的通道。但它不提供网页，浏览器打不开。
+*   **结论**：网页看 `8091`，程序连 `8848`。
+
+### 2. Context Path 陷阱
+如果你的 Nacos 部署在根路径（即访问 `http://ip:port/` 就能看到 API，而不是 `http://ip:port/nacos/`），Java SDK 必须进行特殊设置：
+*   代码中必须显式设置 `properties.put("contextPath", "")`。
+*   如果设置错了，会看到类似 `caused: No static resource nacos/v1/cs/configs` 的报错。
+
+### 3. 鉴权与 Token
+Nacos 开启鉴权后，不支持简单的 HTTP Basic Auth（即 `curl -u`）。
+*   **现象**：直接访问接口报 `User not found` 或 `401`。
+*   **原理**：必须先调 `login` 接口获取 `accessToken`，然后在每个请求参数中带上 `&accessToken=xxx`。
+*   **SDK 处理**：只要 `username/password` 配置正确，SDK 会自动处理登录，但前提是 Context Path 必须对齐。
+
+### 4. 报错签名识别
+*   如果报错内容是 JSON 格式且带有 `timestamp`、`path`、`error` 字段，说明你连上的是一个 **Spring Boot 应用**（可能是 Nacos 控制台外壳或网关）。
+*   如果报错信息包含 `caused: No static resource ...`，说明该服务不认识 Nacos 的 API 路径。
+
+---
+*这些经验是在本次 my-debug-module 搭建过程中，针对复杂 Docker 环境实测总结得出的。*
