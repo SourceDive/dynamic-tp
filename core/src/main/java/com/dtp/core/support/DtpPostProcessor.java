@@ -1,7 +1,7 @@
 package com.dtp.core.support;
 
-import com.dtp.core.thread.DtpExecutor;
 import com.dtp.core.DtpRegistry;
+import com.dtp.core.thread.DtpExecutor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 

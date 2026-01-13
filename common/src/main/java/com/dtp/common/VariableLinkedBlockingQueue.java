@@ -40,9 +40,9 @@ import java.util.concurrent.locks.ReentrantLock;
  * A clone of {@linkplain java.util.concurrent.LinkedBlockingQueue}
  * with the addition of a {@link #setCapacity(int)} method, allowing us to
  * change the capacity of the queue while it is in use.<p>
- *
+ * <p>
  * The documentation for LinkedBlockingQueue follows...<p>
- *
+ * <p>
  * An optionally-bounded {@linkplain BlockingQueue blocking queue} based on
  * linked nodes.
  * This queue orders elements FIFO (first-in-first-out).
@@ -68,9 +68,9 @@ import java.util.concurrent.locks.ReentrantLock;
  * <a href="{@docRoot}/../guide/collections/index.html">
  * Java Collections Framework</a>.
  *
- * @since 1.5
- * @author Doug Lea
  * @param <E> the type of elements held in this collection
+ * @author Doug Lea
+ * @since 1.5
  *
  **/
 public class VariableLinkedBlockingQueue<E> extends AbstractQueue<E>
@@ -95,34 +95,55 @@ public class VariableLinkedBlockingQueue<E> extends AbstractQueue<E>
      * Linked list node class
      */
     static class Node<E> {
-        /** The item, volatile to ensure barrier separating write and read */
+        /**
+         * The item, volatile to ensure barrier separating write and read
+         */
         volatile E item;
         Node<E> next;
-        Node(E x) { item = x; }
+
+        Node(E x) {
+            item = x;
+        }
     }
 
-    /** The capacity bound, or Integer.MAX_VALUE if none */
+    /**
+     * The capacity bound, or Integer.MAX_VALUE if none
+     */
     private int capacity;
 
-    /** Current number of elements */
+    /**
+     * Current number of elements
+     */
     private final AtomicInteger count = new AtomicInteger(0);
 
-    /** Head of linked list */
+    /**
+     * Head of linked list
+     */
     private transient Node<E> head;
 
-    /** Tail of linked list */
+    /**
+     * Tail of linked list
+     */
     private transient Node<E> last;
 
-    /** Lock held by take, poll, etc */
+    /**
+     * Lock held by take, poll, etc
+     */
     private final ReentrantLock takeLock = new ReentrantLock();
 
-    /** Wait queue for waiting takes */
+    /**
+     * Wait queue for waiting takes
+     */
     private final Condition notEmpty = takeLock.newCondition();
 
-    /** Lock held by put, offer, etc */
+    /**
+     * Lock held by put, offer, etc
+     */
     private final ReentrantLock putLock = new ReentrantLock();
 
-    /** Wait queue for waiting puts */
+    /**
+     * Wait queue for waiting puts
+     */
     private final Condition notFull = putLock.newCondition();
 
     /**
@@ -154,6 +175,7 @@ public class VariableLinkedBlockingQueue<E> extends AbstractQueue<E>
 
     /**
      * Create a node and link it at end of queue
+     *
      * @param x the item
      */
     private void insert(E x) {
@@ -162,6 +184,7 @@ public class VariableLinkedBlockingQueue<E> extends AbstractQueue<E>
 
     /**
      * Remove a node from head of queue,
+     *
      * @return the node
      */
     private E extract() {
@@ -202,7 +225,7 @@ public class VariableLinkedBlockingQueue<E> extends AbstractQueue<E>
      *
      * @param capacity the capacity of this queue.
      * @throws IllegalArgumentException if <tt>capacity</tt> is not greater
-     *         than zero.
+     *                                  than zero.
      */
     public VariableLinkedBlockingQueue(int capacity) {
         if (capacity <= 0) throw new IllegalArgumentException();
@@ -215,23 +238,25 @@ public class VariableLinkedBlockingQueue<E> extends AbstractQueue<E>
      * {@link Integer#MAX_VALUE}, initially containing the elements of the
      * given collection,
      * added in traversal order of the collection's iterator.
+     *
      * @param c the collection of elements to initially contain
      * @throws NullPointerException if <tt>c</tt> or any element within it
-     * is <tt>null</tt>
+     *                              is <tt>null</tt>
      */
     public VariableLinkedBlockingQueue(Collection<? extends E> c) {
         this(Integer.MAX_VALUE);
-        for (Iterator<? extends E> it = c.iterator(); it.hasNext();)
+        for (Iterator<? extends E> it = c.iterator(); it.hasNext(); )
             add(it.next());
     }
 
 
     // this doc comment is overridden to remove the reference to collections
     // greater in size than Integer.MAX_VALUE
+
     /**
      * Returns the number of elements in this queue.
      *
-     * @return  the number of elements in this queue.
+     * @return the number of elements in this queue.
      */
     @Override
     public int size() {
@@ -242,6 +267,7 @@ public class VariableLinkedBlockingQueue<E> extends AbstractQueue<E>
      * Set a new capacity for the queue. Increasing the capacity can
      * cause any waiting {@link #put(Object)} invocations to succeed if the new
      * capacity is larger than the queue.
+     *
      * @param capacity the new capacity for the queue
      */
     public void setCapacity(int capacity) {
@@ -255,6 +281,7 @@ public class VariableLinkedBlockingQueue<E> extends AbstractQueue<E>
 
     // this doc comment is a modified copy of the inherited doc comment,
     // without the reference to unlimited queues.
+
     /**
      * Returns the number of elements that this queue can ideally (in
      * the absence of memory or resource constraints) accept without
@@ -274,6 +301,7 @@ public class VariableLinkedBlockingQueue<E> extends AbstractQueue<E>
     /**
      * Adds the specified element to the tail of this queue, waiting if
      * necessary for space to become available.
+     *
      * @param o the element to add
      * @throws InterruptedException if interrupted while waiting.
      * @throws NullPointerException if the specified element is <tt>null</tt>.
@@ -318,11 +346,12 @@ public class VariableLinkedBlockingQueue<E> extends AbstractQueue<E>
     /**
      * Inserts the specified element at the tail of this queue, waiting if
      * necessary up to the specified wait time for space to become available.
-     * @param o the element to add
+     *
+     * @param o       the element to add
      * @param timeout how long to wait before giving up, in units of
-     * <tt>unit</tt>
-     * @param unit a <tt>TimeUnit</tt> determining how to interpret the
-     * <tt>timeout</tt> parameter
+     *                <tt>unit</tt>
+     * @param unit    a <tt>TimeUnit</tt> determining how to interpret the
+     *                <tt>timeout</tt> parameter
      * @return <tt>true</tt> if successful, or <tt>false</tt> if
      * the specified waiting time elapses before space is available.
      * @throws InterruptedException if interrupted while waiting.
@@ -339,7 +368,7 @@ public class VariableLinkedBlockingQueue<E> extends AbstractQueue<E>
         final AtomicInteger count = this.count;
         putLock.lockInterruptibly();
         try {
-            for (;;) {
+            for (; ; ) {
                 if (count.get() < capacity) {
                     insert(o);
                     c = count.getAndIncrement();
@@ -370,7 +399,7 @@ public class VariableLinkedBlockingQueue<E> extends AbstractQueue<E>
      *
      * @param o the element to add.
      * @return <tt>true</tt> if it was possible to add the element to
-     *         this queue, else <tt>false</tt>
+     * this queue, else <tt>false</tt>
      * @throws NullPointerException if the specified element is <tt>null</tt>
      */
     @Override
@@ -435,7 +464,7 @@ public class VariableLinkedBlockingQueue<E> extends AbstractQueue<E>
         final ReentrantLock takeLock = this.takeLock;
         takeLock.lockInterruptibly();
         try {
-            for (;;) {
+            for (; ; ) {
                 if (count.get() > 0) {
                     x = extract();
                     c = count.getAndDecrement();
@@ -552,12 +581,12 @@ public class VariableLinkedBlockingQueue<E> extends AbstractQueue<E>
         try {
             int size = count.get();
             if (a.length < size)
-                a = (T[])java.lang.reflect.Array.newInstance
+                a = (T[]) java.lang.reflect.Array.newInstance
                         (a.getClass().getComponentType(), size);
 
             int k = 0;
             for (Node<?> p = head.next; p != null; p = p.next)
-                a[k++] = (T)p.item;
+                a[k++] = (T) p.item;
             return a;
         } finally {
             fullyUnlock();
@@ -741,10 +770,10 @@ public class VariableLinkedBlockingQueue<E> extends AbstractQueue<E>
     /**
      * Save the state to a stream (that is, serialize it).
      *
+     * @param s the stream
      * @serialData The capacity is emitted (int), followed by all of
      * its elements (each an <tt>Object</tt>) in the proper order,
      * followed by a null
-     * @param s the stream
      */
     private void writeObject(java.io.ObjectOutputStream s)
             throws java.io.IOException {
@@ -768,6 +797,7 @@ public class VariableLinkedBlockingQueue<E> extends AbstractQueue<E>
     /**
      * Reconstitute this queue instance from a stream (that is,
      * deserialize it).
+     *
      * @param s the stream
      */
     private void readObject(java.io.ObjectInputStream s)
@@ -779,9 +809,9 @@ public class VariableLinkedBlockingQueue<E> extends AbstractQueue<E>
         last = head = new Node<E>(null);
 
         // Read in all elements and place in queue
-        for (;;) {
+        for (; ; ) {
             @SuppressWarnings("unchecked")
-            E item = (E)s.readObject();
+            E item = (E) s.readObject();
             if (item == null)
                 break;
             add(item);

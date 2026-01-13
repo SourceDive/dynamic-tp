@@ -40,7 +40,8 @@ public class NotifyHelper {
             Stream.of(COMMON_ALARM_KEYS, CAPACITY_ALARM_KEYS, REJECT_ALARM_KEYS, LIVENESS_ALARM_KEYS)
                     .flatMap(Collection::stream).collect(Collectors.toSet());
 
-    private NotifyHelper() {}
+    private NotifyHelper() {
+    }
 
     public static NotifyItem getNotifyItem(DtpExecutor dtpExecutor, NotifyTypeEnum typeEnum) {
         List<NotifyItem> notifyItems = dtpExecutor.getNotifyItems();

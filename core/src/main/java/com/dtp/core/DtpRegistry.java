@@ -40,6 +40,7 @@ import java.util.stream.Collectors;
 import static com.dtp.common.dto.NotifyItem.getDefaultNotifyItems;
 
 /**
+ * <p>线程池注册表。</p>
  * Core Registry, which keeps all registered Dynamic ThreadPoolExecutors.
  *
  * @author: yanhom
@@ -60,7 +61,7 @@ public class DtpRegistry implements InitializingBean {
      * Register a Dynamic ThreadPoolExecutor.
      *
      * @param executor the newly created DtpExecutor instance
-     * @param source the source of the call to register method
+     * @param source   the source of the call to register method
      */
     public static void register(DtpExecutor executor, String source) {
         log.info("DynamicTp register, source: {}, executor: {}", source, ExecutorConverter.convert(executor));
@@ -74,7 +75,7 @@ public class DtpRegistry implements InitializingBean {
      * @return the managed DtpExecutor instance
      */
     public static DtpExecutor getExecutor(String name) {
-        val executor= DTP_REGISTRY.get(name);
+        val executor = DTP_REGISTRY.get(name);
         if (Objects.isNull(executor)) {
             log.error("Cannot find a specified DynamicTp, name: {}", name);
             throw new DtpException("Cannot find a specified DynamicTp, name: " + name);
@@ -181,7 +182,7 @@ public class DtpRegistry implements InitializingBean {
 
             val blockingQueue = dtpExecutor.getQueue();
             if (blockingQueue instanceof VariableLinkedBlockingQueue) {
-                ((VariableLinkedBlockingQueue<Runnable>)blockingQueue).setCapacity(properties.getQueueCapacity());
+                ((VariableLinkedBlockingQueue<Runnable>) blockingQueue).setCapacity(properties.getQueueCapacity());
             } else {
                 log.error("DynamicTp refresh, the blockingqueue capacity cannot be reset, dtpName: {}, queueType {}",
                         dtpExecutor.getThreadPoolName(), dtpExecutor.getQueueName());

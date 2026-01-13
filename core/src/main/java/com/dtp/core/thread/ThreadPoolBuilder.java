@@ -80,7 +80,8 @@ public class ThreadPoolBuilder {
      */
     private List<NotifyItem> notifyItems = NotifyItem.getDefaultNotifyItems();
 
-    private ThreadPoolBuilder() {}
+    private ThreadPoolBuilder() {
+    }
 
     public static ThreadPoolBuilder newBuilder() {
         return new ThreadPoolBuilder();
@@ -123,8 +124,8 @@ public class ThreadPoolBuilder {
      * Create work queue
      *
      * @param queueName queue name
-     * @param capacity queue capacity
-     * @param fair for SynchronousQueue
+     * @param capacity  queue capacity
+     * @param fair      for SynchronousQueue
      * @return the ThreadPoolBuilder instance
      */
     public ThreadPoolBuilder workQueue(String queueName, Integer capacity, Boolean fair) {
@@ -200,8 +201,8 @@ public class ThreadPoolBuilder {
     /**
      * Build thread pool executor and wrapper with ttl
      *
-     * @see com.alibaba.ttl.TransmittableThreadLocal
      * @return the newly created ExecutorService instance
+     * @see com.alibaba.ttl.TransmittableThreadLocal
      */
     public ExecutorService buildWithTtl() {
         return TtlExecutors.getTtlExecutorService(buildCommonExecutor(this));

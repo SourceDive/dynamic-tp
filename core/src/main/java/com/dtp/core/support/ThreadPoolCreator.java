@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
+ * <p>动态线程池创建器</p>
  * Offer a fast dtp creator, use only in simple scenario.
  * It is best to use ThreadPoolBuilder and assign relevant values.
  *

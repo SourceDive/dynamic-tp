@@ -30,7 +30,8 @@ public enum NotifyTypeEnum {
     /**
      * Reject notify.
      */
-    REJECT("reject"),;
+    REJECT("reject"),
+    ;
 
     private final String value;
 

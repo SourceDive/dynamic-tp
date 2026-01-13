@@ -24,12 +24,13 @@ public interface Notifier {
      * Send change notify message.
      *
      * @param oldProp old properties
-     * @param diffs the changed keys
+     * @param diffs   the changed keys
      */
     void sendChangeMsg(DtpMainProp oldProp, List<String> diffs);
 
     /**
      * Send alarm message.
+     *
      * @param typeEnum notify type
      */
     void sendAlarmMsg(NotifyTypeEnum typeEnum);

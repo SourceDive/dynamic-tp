@@ -1,7 +1,7 @@
 package com.dtp.common.util;
 
-import com.dtp.common.em.ConfigFileTypeEnum;
 import com.dtp.common.config.DtpProperties;
+import com.dtp.common.em.ConfigFileTypeEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;
 
@@ -13,7 +13,8 @@ import org.springframework.core.env.Environment;
  */
 public class NacosUtil {
 
-    private NacosUtil() {}
+    private NacosUtil() {
+    }
 
     public static String deduceDataId(DtpProperties.Nacos nacos,
                                       Environment environment,

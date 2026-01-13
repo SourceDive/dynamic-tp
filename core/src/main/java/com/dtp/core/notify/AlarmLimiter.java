@@ -21,7 +21,8 @@ public class AlarmLimiter {
 
     private static final Map<String, Cache<String, String>> ALARM_LIMITER = new ConcurrentHashMap<>();
 
-    private AlarmLimiter() {}
+    private AlarmLimiter() {
+    }
 
     public static void initAlarmLimiter(String dtpName, NotifyItem notifyItem) {
         if (NotifyTypeEnum.CHANGE.getValue().equalsIgnoreCase(notifyItem.getType())) {

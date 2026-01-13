@@ -52,7 +52,8 @@ public class ZookeeperRefresher extends AbstractRefresher implements Application
                 countDownLatch.countDown();
             } else if (newState == ConnectionState.RECONNECTED) {
                 loadNode(nodePath);
-            }};
+            }
+        };
 
         final CuratorListener curatorListener = (client, curatorEvent) -> {
             final WatchedEvent watchedEvent = curatorEvent.getWatchedEvent();
@@ -65,7 +66,8 @@ public class ZookeeperRefresher extends AbstractRefresher implements Application
                     default:
                         break;
                 }
-            }};
+            }
+        };
         curatorFramework.getConnectionStateListenable().addListener(connectionStateListener);
         curatorFramework.getCuratorListenable().addListener(curatorListener);
 
@@ -81,6 +83,7 @@ public class ZookeeperRefresher extends AbstractRefresher implements Application
 
     /**
      * load config and refresh
+     *
      * @param nodePath config path
      */
     public void loadNode(String nodePath) {

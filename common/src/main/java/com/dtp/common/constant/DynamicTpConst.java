@@ -8,7 +8,8 @@ package com.dtp.common.constant;
  **/
 public class DynamicTpConst {
 
-    private DynamicTpConst() {}
+    private DynamicTpConst() {
+    }
 
     public static final String MAIN_PROPERTIES_PREFIX = "spring.dynamic.tp";
 

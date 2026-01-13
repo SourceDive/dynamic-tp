@@ -8,7 +8,8 @@ package com.dtp.common.constant;
  **/
 public class DingNotifyConst {
 
-    private DingNotifyConst() {}
+    private DingNotifyConst() {
+    }
 
     public static final String DING_WEBHOOK = "https://oapi.dingtalk.com/robot/send?access_token=";
 

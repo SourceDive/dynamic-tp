@@ -22,8 +22,9 @@ public abstract class AbstractWechatNotifier extends AbstractNotifier {
 
     /**
      * Execute real WeChat send.
+     *
      * @param platform send platform
-     * @param text send content
+     * @param text     send content
      */
     protected void doSend(NotifyPlatform platform, String text) {
         String serverUrl = WechatNotifyConst.WECHAT_WEH_HOOK + platform.getUrlKey();
@@ -35,7 +36,7 @@ public abstract class AbstractWechatNotifier extends AbstractNotifier {
 
         HttpResponse response = null;
         try {
-             response = HttpRequest.post(serverUrl).body(JSONUtil.toJsonStr(markdownReq)).execute();
+            response = HttpRequest.post(serverUrl).body(JSONUtil.toJsonStr(markdownReq)).execute();
         } catch (Exception e) {
             log.error("DynamicTp notify, wechat send fail...", e);
         } finally {

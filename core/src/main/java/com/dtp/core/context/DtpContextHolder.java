@@ -12,7 +12,8 @@ public class DtpContextHolder {
 
     private static final TransmittableThreadLocal<DtpContext> CONTEXT = new TransmittableThreadLocal<>();
 
-    private DtpContextHolder() {}
+    private DtpContextHolder() {
+    }
 
     public static void set(DtpContext dtpContext) {
         CONTEXT.set(dtpContext);

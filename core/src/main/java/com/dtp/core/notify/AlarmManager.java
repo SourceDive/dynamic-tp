@@ -38,7 +38,8 @@ public class AlarmManager {
             .rejectedExecutionHandler(RejectedTypeEnum.ABORT_POLICY.getName())
             .buildWithTtl();
 
-    private AlarmManager() {}
+    private AlarmManager() {
+    }
 
     public static void triggerAlarm(Runnable runnable) {
         ALARM_EXECUTOR.execute(runnable);

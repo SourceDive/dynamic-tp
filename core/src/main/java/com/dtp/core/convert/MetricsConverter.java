@@ -11,7 +11,8 @@ import com.dtp.core.thread.DtpExecutor;
  **/
 public class MetricsConverter {
 
-    private MetricsConverter() {}
+    private MetricsConverter() {
+    }
 
     public static ThreadPoolStats convert(DtpExecutor executor) {
 
