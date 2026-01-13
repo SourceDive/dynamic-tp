@@ -50,7 +50,7 @@ public class DtpRegistry implements InitializingBean {
 
     private static final ExecutorService NOTIFY_EXECUTOR = ThreadPoolCreator.createWithTtl("dtp-notify");
 
-    private static final Map<String, DtpExecutor> DTP_REGISTRY = new ConcurrentHashMap<>();
+    private static final Map<String/*name*/, DtpExecutor> DTP_REGISTRY = new ConcurrentHashMap<>();
 
     private static final Equator EQUATOR = new GetterBaseEquator();
 
