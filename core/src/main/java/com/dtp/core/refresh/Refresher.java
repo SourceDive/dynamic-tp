@@ -3,6 +3,7 @@ package com.dtp.core.refresh;
 import com.dtp.common.em.ConfigFileTypeEnum;
 
 /**
+ * <p>刷新器。</p>
  * Refresher related
  *
  * @author: yanhom

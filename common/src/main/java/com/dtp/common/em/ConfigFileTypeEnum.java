@@ -3,6 +3,7 @@ package com.dtp.common.em;
 import lombok.Getter;
 
 /**
+ * <p>配置文件类型。</p>
  * Config file type.
  *
  * @author: yanhom
