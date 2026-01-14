@@ -70,7 +70,7 @@ public class DtpProperties {
     /**
      * Monitor interval, time unit（s）
      */
-    private int monitorInterval = 5;
+    private int monitorInterval = 60;
 
     /**
      * ThreadPoolExecutor configs.

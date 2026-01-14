@@ -1,4 +1,4 @@
-package com.dtp.debug;
+package com.dtp.debug.simple;
 
 import com.dtp.core.DtpRegistry;
 import com.dtp.core.support.ThreadPoolCreator;

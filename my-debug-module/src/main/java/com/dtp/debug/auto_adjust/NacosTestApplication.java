@@ -1,4 +1,4 @@
-package com.dtp.debug;
+package com.dtp.debug.auto_adjust;
 
 import com.dtp.core.DtpRegistry;
 import com.dtp.core.thread.DtpExecutor;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Nacos 动态刷新测试应用
